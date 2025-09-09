@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes & Batch Cooking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        nav.main-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav.main-nav a {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        nav.main-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        nav.main-nav a.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .cooking-schedule {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .cooking-schedule h2 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .schedule-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .schedule-item h3 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .schedule-item .time {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        
+        .recipe-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .recipe-section h2 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .recipe-section h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin: 20px 0 10px 0;
+        }
+        
+        .recipe-card {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .recipe-card h3 {
+            color: #f57c00;
+            border-bottom: 2px solid #ffa726;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .recipe-meta span {
+            background: #e3f2fd;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: #1565c0;
+            font-weight: 600;
+        }
+        
+        .ingredients-list {
+            background: #fff9c4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .ingredients-list h4 {
+            color: #f57f17;
+            margin-bottom: 10px;
+        }
+        
+        .ingredients-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .ingredients-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .ingredients-list li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .instructions {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .instructions h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+        
+        .spice-tip {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .spice-tip strong {
+            color: #c62828;
+        }
+        
+        .nutrition-info {
+            background: #f3e5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .nutrition-info h4 {
+            color: #7b1fa2;
+            margin-bottom: 10px;
+        }
+        
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .macro-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .macro-item .value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .macro-item .label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .citation {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        
+        .citation a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .citation a:hover {
+            text-decoration: underline;
+        }
+        
+        .dessert-section {
+            background: #fce4ec;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+        }
+        
+        .dessert-section h2 {
+            color: #c2185b;
+            margin-bottom: 20px;
+        }
+        
+        .tips-section {
+            background: #e0f2f1;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+        
+        .tips-section h3 {
+            color: #00695c;
+            margin-bottom: 15px;
+        }
+        
+        .tips-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tips-section li {
+            padding: 10px 0;
+            border-bottom: 1px solid #b2dfdb;
+        }
+        
+        .tips-section li:before {
+            content: "💡 ";
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .recipe-meta {
+                flex-direction: column;
+            }
+            
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍳 Recipes & Batch Cooking Guide</h1>
+            <p>All your meal prep instructions and recipes in one place</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="meal-plan-index.html">🏠 Home</a>
+            <a href="meal-plan-page.html">📅 7-Day Meal Plan</a>
+            <a href="recipes-page.html" class="active">🍳 Recipes & Batch Cooking</a>
+            <a href="grocery-page.html">🛒 Grocery List</a>
+            <a href="fitness-page.html">💪 Fitness & Strategies</a>
+        </nav>
+        
+        <div class="content">
+            <div class="cooking-schedule">
+                <h2>📅 Weekly Cooking Schedule</h2>
+                <p>Only 3 cooking sessions per week! Here's your efficient meal prep schedule:</p>
+                <div class="schedule-grid">
+                    <div class="schedule-item">
+                        <h3>Sunday</h3>
+                        <p class="time">60 minutes</p>
+                        <p>Burrito bowls, breakfast prep, protein balls</p>
+                    </div>
+                    <div class="schedule-item">
+                        <h3>Tuesday</h3>
+                        <p class="time">30 minutes</p>
+                        <p>Turkey burgers</p>
+                    </div>
+                    <div class="schedule-item">
+                        <h3>Thursday</h3>
+                        <p class="time">35 minutes</p>
+                        <p>Protein pasta</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recipe-section">
+                <h2>Sunday: Main Prep Session</h2>
+                <p class="citation">Batch cooking strategies adapted from <a href="https://www.heynutritionlady.com/batch-cooking-for-a-healthy-week/">Hey Nutrition Lady's Batch Cooking Guide</a></p>
+                
+                <div class="recipe-card">
+                    <h3>Chipotle Chicken Burrito Bowl Base</h3>
+                    <p class="citation">Adapted from <a href="https://feelgoodfoodie.net/recipe/chicken-burrito-bowl-cilantro-lime-rice/">Feel Good Foodie</a> and <a href="https://www.budgetbytes.com/easiest-burrito-bowl-meal-prep/">Budget Bytes</a></p>
+                    
+                    <div class="recipe-meta">
+                        <span>⏱️ 30 minutes</span>
+                        <span>🍽️ 12 servings</span>
+                        <span>💪 52g protein/serving</span>
+                    </div>
+                    
+                    <div class="ingredients-list">
+                        <h4>Ingredients:</h4>
+                        <ul>
+                            <li>3 lbs chicken breast</li>
+                            <li>Chipotle peppers in adobo sauce (2 cans)</li>
+                            <li>3 tbsp lime juice</li>
+                            <li>2 tsp garlic powder</li>
+                            <li>3 cups white rice (dry)</li>
+                            <li>2 cans black beans</li>
+                            <li>2 cups frozen corn</li>
+                            <li>Fresh cilantro</li>
+                            <li>4 tomatoes</li>
+                            <li>2 red onions</li>
+                            <li>6 avocados</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ol>
+                            <li>Marinate chicken with ¼ cup adobo sauce (keep it mild), lime juice, and garlic powder for 15 minutes</li>
+                            <li>Cook chicken in large skillet over medium-high heat for 15 minutes until internal temp reaches 165°F</li>
+                            <li>While chicken cooks, prepare cilantro lime rice: Cook rice according to package, then mix in lime juice and chopped cilantro</li>
+                            <li>Heat black beans with cumin and a pinch of salt</li>
+                            <li>Dice tomatoes and red onions, chop cilantro</li>
+                            <li>Let chicken rest 5 minutes, then slice into strips</li>
+                            <li>Store each component separately for maximum freshness</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="spice-tip">
+                        <strong>🌶️ Spice Customization:</strong> Keep the base mild for Annika. Nic can add extra chipotle sauce, hot sauce, or jalapeños when serving!
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>Weekday Breakfast Prep</h3>
+                    <p class="citation">Strategies from <a href="https://fancywithoutthefuss.com/how-to-meal-prep-like-a-pro/">Fancy Without the Fuss</a></p>
+                    
+                    <div class="recipe-meta">
+                        <span>⏱️ 15 minutes</span>
+                        <span>🍽️ 5 days worth</span>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Prep Steps:</h4>
+                        <ol>
+                            <li>Pre-portion turkey sausage links: 15 for Nic (3 per day), 10 for Annika (2 per day)</li>
+                            <li>Slice all avocados, immediately toss with lime juice to prevent browning</li>
+                            <li>Store in airtight container with plastic wrap pressed directly on surface</li>
+                            <li>Create grab-and-go bags: Pair 2 string cheeses with 1 apple or banana in zip bags</li>
+                            <li>Optional: Pre-scramble eggs and portion into daily containers for reheating</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>No-Bake Protein Balls</h3>
+                    <p class="citation">Based on <a href="https://nourishedbynic.com/no-bake-protein-cookie-dough/">Nourished by Nic</a></p>
+                    
+                    <div class="recipe-meta">
+                        <span>⏱️ 15 minutes</span>
+                        <span>🍽️ 20 balls</span>
+                        <span>💪 3-4g protein/ball</span>
+                    </div>
+                    
+                    <div class="ingredients-list">
+                        <h4>Ingredients:</h4>
+                        <ul>
+                            <li>1 cup pitted dates (10-12 Medjool)</li>
+                            <li>1 cup almond butter</li>
+                            <li>1 scoop vanilla protein powder</li>
+                            <li>2 tbsp cocoa powder (optional)</li>
+                            <li>1/3 cup mini chocolate chips (optional)</li>
+                            <li>2-3 tbsp water if needed</li>
+                            <li>Pinch of salt</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ol>
+                            <li>If dates are hard, soak in warm water for 5 minutes, then drain</li>
+                            <li>Add dates to food processor, pulse until sticky paste forms</li>
+                            <li>Add almond butter, protein powder, cocoa powder, and salt. Pulse until combined</li>
+                            <li>If too dry, add water 1 tablespoon at a time</li>
+                            <li>Fold in chocolate chips if using</li>
+                            <li>Roll mixture into 1-inch balls</li>
+                            <li>Place on parchment-lined tray and refrigerate 30 minutes to firm</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="nutrition-info">
+                        <h4>Macros per ball:</h4>
+                        <div class="macro-grid">
+                            <div class="macro-item">
+                                <div class="value">85-90</div>
+                                <div class="label">Calories</div>
+                            </div>
+                            <div class="macro-item">
+                                <div class="value">3-4g</div>
+                                <div class="label">Protein</div>
+                            </div>
+                            <div class="macro-item">
+                                <div class="value">10g</div>
+                                <div class="label">Carbs</div>
+                            </div>
+                            <div class="macro-item">
+                                <div class="value">4g</div>
+                                <div class="label">Fat</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recipe-section">
+                <h2>Tuesday: Turkey Burger Session</h2>
+                
+                <div class="recipe-card">
+                    <h3>High-Protein Turkey Burgers</h3>
+                    <p class="citation">Inspired by <a href="https://myproteinpantry.com/high-protein-turkey-burgers/">My Protein Pantry</a> and <a href="https://tastesbetterfromscratch.com/turkey-burgers/">Tastes Better From Scratch</a></p>
+                    
+                    <div class="recipe-meta">
+                        <span>⏱️ 30 minutes</span>
+                        <span>🍽️ 8 burgers</span>
+                        <span>💪 30g protein/burger</span>
+                    </div>
+                    
+                    <div class="ingredients-list">
+                        <h4>Ingredients:</h4>
+                        <ul>
+                            <li>2 lbs 93% lean ground turkey</li>
+                            <li>2 eggs</li>
+                            <li>2 tsp Worcestershire sauce</li>
+                            <li>1 tsp garlic powder</li>
+                            <li>4 green onions, chopped</li>
+                            <li>Salt and pepper to taste</li>
+                            <li>4 jalapeños (for Nic's burgers)</li>
+                            <li>8 whole wheat buns</li>
+                            <li>8 slices cheese</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ol>
+                            <li>In large bowl, mix turkey with eggs, Worcestershire, garlic powder, green onions, salt, and pepper</li>
+                            <li>Divide mixture in half</li>
+                            <li>To one half, add finely diced jalapeños for Nic's spicy burgers</li>
+                            <li>Form into 8 patties total (4 spicy, 4 mild)</li>
+                            <li>Cook on grill or skillet over medium-high heat, 4-5 minutes per side</li>
+                            <li>Internal temp should reach 165°F</li>
+                            <li>Store patties separate from buns to prevent sogginess</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="spice-tip">
+                        <strong>🌶️ Spice Tip:</strong> Mark Nic's spicy burgers with a toothpick or store in separate container!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recipe-section">
+                <h2>Thursday: Pasta Night</h2>
+                
+                <div class="recipe-card">
+                    <h3>Creamy Turkey Sausage Protein Pasta</h3>
+                    <p class="citation">Adapted from <a href="https://www.jaroflemons.com/protein-pasta-recipe/">Jar of Lemons</a> and <a href="https://eatthegains.com/cottage-cheese-pasta/">Eat the Gains</a></p>
+                    
+                    <div class="recipe-meta">
+                        <span>⏱️ 35 minutes</span>
+                        <span>🍽️ 10 servings</span>
+                        <span>💪 35-40g protein/serving</span>
+                    </div>
+                    
+                    <div class="ingredients-list">
+                        <h4>Ingredients:</h4>
+                        <ul>
+                            <li>2 lbs chickpea or lentil pasta</li>
+                            <li>1.5 lbs turkey Italian sausage</li>
+                            <li>3 cups fresh spinach</li>
+                            <li>1 jar sun-dried tomatoes</li>
+                            <li>1 cup Greek yogurt</li>
+                            <li>½ cup milk</li>
+                            <li>1 cup parmesan cheese</li>
+                            <li>24 oz marinara sauce</li>
+                            <li>Red pepper flakes (for Nic)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h4>Instructions:</h4>
+                        <ol>
+                            <li>Cook protein pasta according to package directions, drain and set aside</li>
+                            <li>Brown turkey sausage in large skillet, breaking into bite-sized pieces</li>
+                            <li>In bowl, mix Greek yogurt with milk and parmesan to create creamy sauce</li>
+                            <li>Add marinara and yogurt sauce to sausage</li>
+                            <li>Toss in cooked pasta and sun-dried tomatoes</li>
+                            <li>Add spinach and stir until wilted</li>
+                            <li>Portion into containers</li>
+                            <li>Nic adds red pepper flakes when reheating his portions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dessert-section">
+                <h2>🍰 Quick Dessert Recipes</h2>
+                
+                <div class="recipe-card">
+                    <h3>Chocolate Protein Pudding</h3>
+                    <p class="citation">Inspired by <a href="https://www.goodhousekeeping.com/health/diet-nutrition/a62410925/high-protein-desserts/">Good Housekeeping</a></p>
+                    
+                    <ul>
+                        <li>Blend 1 cup Greek yogurt + 1 scoop chocolate protein powder + 2 tbsp cocoa powder + stevia</li>
+                        <li>Chill 30 minutes before serving</li>
+                        <li><strong>Macros:</strong> 35g protein, 220 calories</li>
+                    </ul>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>4-Ingredient Protein Brownies</h3>
+                    <p class="citation">From <a href="https://thebigmansworld.com/4-ingredient-flourless-protein-brownie-bites/">The Big Man's World</a></p>
+                    
+                    <ul>
+                        <li>Mix 1 cup almond butter + 2 scoops chocolate protein powder + ¼ cup cocoa + ¼ cup maple syrup</li>
+                        <li>Bake at 350°F for 12-15 minutes</li>
+                        <li><strong>Macros per brownie:</strong> 15g protein, 180 calories</li>
+                    </ul>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>Greek Yogurt Parfait</h3>
+                    <ul>
+                        <li>Layer 1 cup Greek yogurt + ½ cup berries + 2 tbsp granola + 1 tbsp honey</li>
+                        <li>Optional: Add 1 tbsp chia seeds</li>
+                        <li><strong>Macros:</strong> 25g protein, 280 calories</li>
+                    </ul>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>Frozen Greek Yogurt Bark</h3>
+                    <p class="citation">Based on <a href="https://terianncarty.com/high-protein-desserts/">Teri-Ann Carty</a></p>
+                    
+                    <ul>
+                        <li>Spread 2 cups Greek yogurt on parchment-lined tray</li>
+                        <li>Top with berries, nuts, dark chocolate chips</li>
+                        <li>Freeze 2 hours, break into pieces</li>
+                        <li><strong>Macros per serving:</strong> 12g protein, 150 calories</li>
+                    </ul>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>Chia Pudding</h3>
+                    <p class="citation">Inspired by <a href="https://fitonapp.com/nutrition/high-protein-desserts/">FitOn</a></p>
+                    
+                    <ul>
+                        <li>Mix ½ cup chia seeds + 2 cups almond milk + 1 scoop vanilla protein powder + 1 tbsp honey</li>
+                        <li>Refrigerate overnight</li>
+                        <li>Top with berries and nuts</li>
+                        <li><strong>Macros:</strong> 20g protein, 280 calories</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="recipe-section">
+                <h2>Weekend Breakfast Specials</h2>
+                
+                <div class="recipe-card">
+                    <h3>Protein Pancakes</h3>
+                    <ul>
+                        <li>Blend 2 eggs + 1 banana + 1 scoop vanilla protein powder + ½ cup oats + cinnamon</li>
+                        <li>Cook on griddle like regular pancakes</li>
+                        <li>Serve with sugar-free syrup or berries</li>
+                        <li><strong>Macros (3 pancakes):</strong> 32-40g protein, 380 calories</li>
+                    </ul>
+                </div>
+                
+                <div class="recipe-card">
+                    <h3>Breakfast Burrito</h3>
+                    <ul>
+                        <li>Scramble 3 eggs with turkey sausage</li>
+                        <li>Wrap in large tortilla with cheese, salsa, avocado</li>
+                        <li>Optional: Add black beans for extra protein</li>
+                        <li><strong>Macros:</strong> 35-45g protein, 550 calories</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tips-section">
+                <h3>💡 Pro Meal Prep Tips</h3>
+                <ul>
+                    <li>Cook proteins to 165°F internal temperature for food safety</li>
+                    <li>Store components separately to maintain texture and freshness</li>
+                    <li>Label containers with contents and date prepared</li>
+                    <li>Reheat at 70% power in microwave to prevent drying out</li>
+                    <li>Add a tablespoon of water when reheating rice or pasta</li>
+                    <li>Prep vegetables last to maintain maximum freshness</li>
+                    <li>Freeze extra portions if you won't eat within 4 days</li>
+                    <li>Keep Nic's spicy additions separate for easy customization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Meal Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        nav.main-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav.main-nav a {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        nav.main-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        nav.main-nav a.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .day-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .day-nav button {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .day-nav button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .day-nav button.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .weekday-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .weekday-note h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .day-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            display: none;
+        }
+        
+        .day-section.active {
+            display: block;
+        }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .day-section h2 {
+            color: #764ba2;
+            font-size: 2em;
+        }
+        
+        .day-type {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .meal-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .meal-item h3 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .meal-content {
+            margin: 10px 0;
+        }
+        
+        .protein-info {
+            color: #667eea;
+            font-style: italic;
+            font-weight: bold;
+            background: #e7f3ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .person-specific {
+            display: flex;
+            gap: 20px;
+            margin: 10px 0;
+        }
+        
+        .person-meal {
+            flex: 1;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .person-meal strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .daily-totals {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .meal-table {
+            width: 100%;
+            margin-top: 30px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .meal-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .meal-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .meal-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .meal-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .weekend-special {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .weekend-special .day-type {
+            background: #4caf50;
+        }
+        
+        @media (max-width: 768px) {
+            .person-specific {
+                flex-direction: column;
+            }
+            
+            .day-nav {
+                flex-direction: column;
+            }
+            
+            .day-nav button {
+                width: 100%;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .meal-table {
+                font-size: 0.9em;
+            }
+            
+            .meal-table th, .meal-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 Your 7-Day Meal Plan</h1>
+            <p>Complete daily meals with protein targets</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="meal-plan-index.html">🏠 Home</a>
+            <a href="meal-plan-page.html" class="active">📅 7-Day Meal Plan</a>
+            <a href="recipes-page.html">🍳 Recipes & Batch Cooking</a>
+            <a href="grocery-page.html">🛒 Grocery List</a>
+            <a href="fitness-page.html">💪 Fitness & Strategies</a>
+        </nav>
+        
+        <div class="content">
+            <div class="weekday-note">
+                <h3>📌 Weekday Routine (Monday-Friday)</h3>
+                <p><strong>Every weekday has the same breakfast and pre-workout snack!</strong> This eliminates decision fatigue and makes your mornings automatic. Weekend breakfasts offer variety with protein pancakes and breakfast burritos.</p>
+            </div>
+            
+            <div class="day-nav">
+                <button class="active" onclick="showDay('monday')">Monday</button>
+                <button onclick="showDay('tuesday')">Tuesday</button>
+                <button onclick="showDay('wednesday')">Wednesday</button>
+                <button onclick="showDay('thursday')">Thursday</button>
+                <button onclick="showDay('friday')">Friday</button>
+                <button onclick="showDay('saturday')">Saturday</button>
+                <button onclick="showDay('sunday')">Sunday</button>
+            </div>
+            
+            <!-- Monday -->
+            <div id="monday" class="day-section active">
+                <div class="day-header">
+                    <h2>Monday</h2>
+                    <span class="day-type">Weekday Routine</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        String cheese (2) with apple or banana
+                        <span class="protein-info">Protein: 14g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍳 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Scrambled eggs with turkey sausage links and avocado toast
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic's Portion:</strong>
+                            3 whole eggs + 2 whites, 3 sausage links
+                            <span class="protein-info">Protein: 42g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika's Portion:</strong>
+                            2 whole eggs + 1 white, 2 sausage links
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese (1 cup) with berries
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Greek yogurt with granola
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🌮 Dinner</h3>
+                    <div class="meal-content">
+                        Chipotle burrito bowl with all toppings
+                        <span class="protein-info">Protein: 52g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍫 Evening treat</h3>
+                    <div class="meal-content">
+                        Chocolate protein pudding (Greek yogurt + cocoa + protein powder)
+                        <span class="protein-info">Protein: 20g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~183g protein, 2450 calories | Annika ~134g protein, 1850 calories
+                </div>
+            </div>
+            
+            <!-- Tuesday -->
+            <div id="tuesday" class="day-section">
+                <div class="day-header">
+                    <h2>Tuesday</h2>
+                    <span class="day-type">Weekday Routine</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        String cheese (2) with apple or banana
+                        <span class="protein-info">Protein: 14g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍳 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Scrambled eggs with turkey sausage links and avocado toast
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic's Portion:</strong>
+                            3 whole eggs + 2 whites, 3 sausage links
+                            <span class="protein-info">Protein: 42g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika's Portion:</strong>
+                            2 whole eggs + 1 white, 2 sausage links
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese (1 cup) with pineapple
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Turkey jerky with mixed nuts (portable!)
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍔 Dinner</h3>
+                    <div class="meal-content">
+                        Turkey burgers with sweet potato fries and side salad
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            1.5 burgers with jalapeños
+                            <span class="protein-info">Protein: 38g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            1 burger, mild
+                            <span class="protein-info">Protein: 30g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍓 Evening treat</h3>
+                    <div class="meal-content">
+                        Greek yogurt parfait with honey and berries
+                        <span class="protein-info">Protein: 15g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~174g protein, 2480 calories | Annika ~117g protein, 1900 calories
+                </div>
+            </div>
+            
+            <!-- Wednesday -->
+            <div id="wednesday" class="day-section">
+                <div class="day-header">
+                    <h2>Wednesday</h2>
+                    <span class="day-type">Weekday Routine</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        String cheese (2) with apple or banana
+                        <span class="protein-info">Protein: 14g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍳 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Scrambled eggs with turkey sausage links and avocado toast
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic's Portion:</strong>
+                            3 whole eggs + 2 whites, 3 sausage links
+                            <span class="protein-info">Protein: 42g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika's Portion:</strong>
+                            2 whole eggs + 1 white, 2 sausage links
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese (1 cup) with berries
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Protein bar with apple slices (portable!)
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🌮 Dinner</h3>
+                    <div class="meal-content">
+                        Chipotle burrito bowl with EXTRA chicken
+                        <span class="protein-info">Protein: 65g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍫 Evening treat</h3>
+                    <div class="meal-content">
+                        No-bake protein balls (dates, protein powder, almond butter)
+                        <span class="protein-info">Protein: 12g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~188g protein, 2470 calories | Annika ~139g protein, 1880 calories
+                </div>
+            </div>
+            
+            <!-- Thursday -->
+            <div id="thursday" class="day-section">
+                <div class="day-header">
+                    <h2>Thursday</h2>
+                    <span class="day-type">Weekday Routine</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        String cheese (2) with apple or banana
+                        <span class="protein-info">Protein: 14g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍳 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Scrambled eggs with turkey sausage links and avocado toast
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic's Portion:</strong>
+                            3 whole eggs + 2 whites, 3 sausage links
+                            <span class="protein-info">Protein: 42g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika's Portion:</strong>
+                            2 whole eggs + 1 white, 2 sausage links
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese (1 cup) with pineapple
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Greek yogurt with berries
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍝 Dinner</h3>
+                    <div class="meal-content">
+                        Creamy turkey sausage pasta with spinach
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            1.25x portion with red pepper flakes
+                            <span class="protein-info">Protein: 45g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Standard portion
+                            <span class="protein-info">Protein: 35g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍫 Evening treat</h3>
+                    <div class="meal-content">
+                        Chocolate protein pudding with berries
+                        <span class="protein-info">Protein: 20g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~176g protein, 2510 calories | Annika ~117g protein, 1950 calories
+                </div>
+            </div>
+            
+            <!-- Friday -->
+            <div id="friday" class="day-section">
+                <div class="day-header">
+                    <h2>Friday</h2>
+                    <span class="day-type">Weekday Routine</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        String cheese (2) with apple or banana
+                        <span class="protein-info">Protein: 14g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍳 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Scrambled eggs with turkey sausage links and avocado toast
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic's Portion:</strong>
+                            3 whole eggs + 2 whites, 3 sausage links
+                            <span class="protein-info">Protein: 42g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika's Portion:</strong>
+                            2 whole eggs + 1 white, 2 sausage links
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese (1 cup) with berries
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Trail mix with beef jerky (portable!)
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Dinner</h3>
+                    <div class="meal-content">
+                        Turkey burger bowl (deconstructed over greens) with avocado
+                        <span class="protein-info">Protein: 38g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍫 Evening treat</h3>
+                    <div class="meal-content">
+                        4-ingredient protein brownies
+                        <span class="protein-info">Protein: 15g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~174g protein, 2450 calories | Annika ~115g protein, 1900 calories
+                </div>
+            </div>
+            
+            <!-- Saturday -->
+            <div id="saturday" class="day-section weekend-special">
+                <div class="day-header">
+                    <h2>Saturday</h2>
+                    <span class="day-type">Weekend Special</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        Protein smoothie with banana, berries, protein powder
+                        <span class="protein-info">Protein: 25g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🌯 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Weekend breakfast burrito with eggs, cheese, turkey sausage, salsa
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Large burrito with hot sauce
+                            <span class="protein-info">Protein: 45g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Regular burrito
+                            <span class="protein-info">Protein: 35g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese with pineapple
+                            <span class="protein-info">Protein: 25g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Greek yogurt parfait
+                            <span class="protein-info">Protein: 20g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍝 Dinner</h3>
+                    <div class="meal-content">
+                        Leftover pasta with extra turkey sausage
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Large portion
+                            <span class="protein-info">Protein: 50g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Regular portion
+                            <span class="protein-info">Protein: 40g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍨 Evening treat</h3>
+                    <div class="meal-content">
+                        Frozen Greek yogurt bark with berries
+                        <span class="protein-info">Protein: 12g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~187g protein, 2480 calories | Annika ~132g protein, 1920 calories
+                </div>
+            </div>
+            
+            <!-- Sunday -->
+            <div id="sunday" class="day-section weekend-special">
+                <div class="day-header">
+                    <h2>Sunday</h2>
+                    <span class="day-type">Weekend Special + Meal Prep Day</span>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥤 Pre-workout snack</h3>
+                    <div class="meal-content">
+                        Greek yogurt with granola
+                        <span class="protein-info">Protein: 18g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥞 Post-workout breakfast</h3>
+                    <div class="meal-content">
+                        Protein pancakes (egg + banana + protein powder) with turkey bacon
+                    </div>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            4 pancakes + 4 strips bacon
+                            <span class="protein-info">Protein: 40g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            3 pancakes + 3 strips bacon
+                            <span class="protein-info">Protein: 32g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🥗 Midday snack</h3>
+                    <div class="person-specific">
+                        <div class="person-meal">
+                            <strong>Nic:</strong>
+                            Cottage cheese bowl with berries and nuts
+                            <span class="protein-info">Protein: 28g</span>
+                        </div>
+                        <div class="person-meal">
+                            <strong>Annika:</strong>
+                            Leftover burrito bowl portion
+                            <span class="protein-info">Protein: 30g</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍲 Dinner</h3>
+                    <div class="meal-content">
+                        "Clean out" bowl with remaining proteins and veggies
+                        <span class="protein-info">Protein: 45g</span>
+                    </div>
+                </div>
+                
+                <div class="meal-item">
+                    <h3>🍮 Evening treat</h3>
+                    <div class="meal-content">
+                        Chia pudding with protein powder
+                        <span class="protein-info">Protein: 20g</span>
+                    </div>
+                </div>
+                
+                <div class="daily-totals">
+                    Daily Totals: Nic ~181g protein, 2420 calories | Annika ~145g protein, 1850 calories
+                </div>
+            </div>
+            
+            <!-- Summary Table -->
+            <table class="meal-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Breakfast</th>
+                        <th>Dinner Highlight</th>
+                        <th>Nic's Protein</th>
+                        <th>Annika's Protein</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Monday</strong></td>
+                        <td>Standard eggs & sausage</td>
+                        <td>Chipotle Bowl</td>
+                        <td>183g</td>
+                        <td>134g</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tuesday</strong></td>
+                        <td>Standard eggs & sausage</td>
+                        <td>Turkey Burgers</td>
+                        <td>174g</td>
+                        <td>117g</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wednesday</strong></td>
+                        <td>Standard eggs & sausage</td>
+                        <td>Chipotle Bowl (Extra)</td>
+                        <td>188g</td>
+                        <td>139g</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Thursday</strong></td>
+                        <td>Standard eggs & sausage</td>
+                        <td>Pasta Night</td>
+                        <td>176g</td>
+                        <td>117g</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Friday</strong></td>
+                        <td>Standard eggs & sausage</td>
+                        <td>Burger Bowl</td>
+                        <td>174g</td>
+                        <td>115g</td>
+                    </tr>
+                    <tr style="background: #e8f5e9;">
+                        <td><strong>Saturday</strong></td>
+                        <td>🌯 Breakfast Burrito</td>
+                        <td>Leftover Pasta</td>
+                        <td>187g</td>
+                        <td>132g</td>
+                    </tr>
+                    <tr style="background: #e8f5e9;">
+                        <td><strong>Sunday</strong></td>
+                        <td>🥞 Protein Pancakes</td>
+                        <td>Clean Out Bowl</td>
+                        <td>181g</td>
+                        <td>145g</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        function showDay(day) {
+            // Hide all day sections
+            document.querySelectorAll('.day-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.day-nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected day
+            document.getElementById(day).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

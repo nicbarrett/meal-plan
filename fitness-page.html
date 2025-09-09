@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness & Success Strategies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        nav.main-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav.main-nav a {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        nav.main-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        nav.main-nav a.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .section-tabs button {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .section-tabs button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .section-tabs button.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .fitness-section {
+            background: #e3f2fd;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #1565c0;
+        }
+        
+        .fitness-section h2 {
+            color: #1565c0;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .fitness-section h3 {
+            color: #1976d2;
+            font-size: 1.4em;
+            margin: 20px 0 10px 0;
+        }
+        
+        .workout-split {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .workout-split h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .workout-days {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .workout-day {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .workout-day strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .person-goals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .person-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .person-card.nic {
+            border-top: 4px solid #667eea;
+        }
+        
+        .person-card.annika {
+            border-top: 4px solid #ec407a;
+        }
+        
+        .person-card h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .person-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .person-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .person-card li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .strategy-box {
+            background: #fff3e0;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .strategy-box h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+        
+        .recovery-section {
+            background: #e8f5e9;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+        }
+        
+        .recovery-section h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .supplement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .supplement-card {
+            background: #f3e5f5;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #7b1fa2;
+        }
+        
+        .supplement-card h4 {
+            color: #7b1fa2;
+            margin-bottom: 10px;
+        }
+        
+        .supplement-card .dose {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px 0;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .daily-targets {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .daily-targets h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .target-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .target-item .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .target-item .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .success-tips {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+        }
+        
+        .success-tips h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tip-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .tip-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .citation {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        
+        .citation a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .citation a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .person-goals {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💪 Fitness & Success Strategies</h1>
+            <p>Training plans, recovery tips, and strategies for success</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="meal-plan-index.html">🏠 Home</a>
+            <a href="meal-plan-page.html">📅 7-Day Meal Plan</a>
+            <a href="recipes-page.html">🍳 Recipes & Batch Cooking</a>
+            <a href="grocery-page.html">🛒 Grocery List</a>
+            <a href="fitness-page.html" class="active">💪 Fitness & Strategies</a>
+        </nav>
+        
+        <div class="content">
+            <div class="section-tabs">
+                <button class="active" onclick="showTab('training')">🏋️ Training</button>
+                <button onclick="showTab('goals')">🎯 Individual Goals</button>
+                <button onclick="showTab('recovery')">😴 Recovery</button>
+                <button onclick="showTab('supplements')">💊 Supplements</button>
+                <button onclick="showTab('strategies')">✨ Success Tips</button>
+            </div>
+            
+            <!-- Training Tab -->
+            <div id="training" class="tab-content active">
+                <div class="fitness-section">
+                    <h2>Training Split Options (3-4 days/week)</h2>
+                    <p class="citation">Based on <a href="https://www.hevyapp.com/4-day-workout-split-complete-guide/">Hevy's 4-Day Workout Split Guide</a> and <a href="https://row.gymshark.com/blog/article/the-best-workout-splits-for-every-goal">Gymshark's Workout Split Guide</a></p>
+                    
+                    <div class="workout-split">
+                        <h4>Option 1: Upper/Lower Split (Recommended)</h4>
+                        <div class="workout-days">
+                            <div class="workout-day">
+                                <strong>Monday</strong>
+                                Upper Body
+                            </div>
+                            <div class="workout-day">
+                                <strong>Tuesday</strong>
+                                Lower Body
+                            </div>
+                            <div class="workout-day">
+                                <strong>Wednesday</strong>
+                                Rest/Cardio
+                            </div>
+                            <div class="workout-day">
+                                <strong>Thursday</strong>
+                                Upper Body
+                            </div>
+                            <div class="workout-day">
+                                <strong>Friday</strong>
+                                Lower Body
+                            </div>
+                            <div class="workout-day">
+                                <strong>Weekend</strong>
+                                Rest/Active Recovery
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="workout-split">
+                        <h4>Option 2: Push/Pull/Legs Split</h4>
+                        <div class="workout-days">
+                            <div class="workout-day">
+                                <strong>Monday</strong>
+                                Push (Chest, Shoulders, Triceps)
+                            </div>
+                            <div class="workout-day">
+                                <strong>Wednesday</strong>
+                                Pull (Back, Biceps)
+                            </div>
+                            <div class="workout-day">
+                                <strong>Friday</strong>
+                                Legs (Quads, Hamstrings, Glutes)
+                            </div>
+                            <div class="workout-day">
+                                <strong>Saturday</strong>
+                                Optional Full Body
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-box">
+                        <h3>Key Training Principles</h3>
+                        <ul>
+                            <li><strong>Progressive Overload:</strong> Increase weight by 2.5-5 lbs when you complete all sets with good form</li>
+                            <li><strong>Rep Ranges:</strong> 6-8 for strength, 8-12 for hypertrophy, 12-15 for endurance</li>
+                            <li><strong>Rest Periods:</strong> 2-3 minutes for compound movements, 60-90 seconds for isolation</li>
+                            <li><strong>Compound Focus:</strong> Prioritize squats, deadlifts, bench press, rows, overhead press</li>
+                            <li><strong>Track Everything:</strong> Log weights, reps, and how you feel each session</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Individual Goals Tab -->
+            <div id="goals" class="tab-content">
+                <div class="person-goals">
+                    <div class="person-card nic">
+                        <h3>🔵 Nic's Goals & Strategies</h3>
+                        <p class="citation">NEAT strategies from <a href="https://www.ahajournals.org/doi/10.1161/01.atv.0000205848.83210.73">American Heart Association Research</a></p>
+                        <ul>
+                            <li>Daily step goal: 8,000 minimum</li>
+                            <li>Standing desk: 2-3 hours daily</li>
+                            <li>Walking meetings when possible</li>
+                            <li>Park farther away from entrances</li>
+                            <li>Take stairs instead of elevators</li>
+                            <li>Track waist measurement monthly</li>
+                            <li>Target: 1-2 lbs loss weekly</li>
+                            <li>Focus on strength maintenance during cut</li>
+                            <li>Add 10-minute walks after meals</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="person-card annika">
+                        <h3>🔴 Annika's Goals & Strategies</h3>
+                        <p class="citation">Progressive overload from <a href="https://pubmed.ncbi.nlm.nih.gov/22777332/">Resistance Training Research</a></p>
+                        <ul>
+                            <li>Progressive overload each week</li>
+                            <li>Track key lift numbers (squat, deadlift, bench)</li>
+                            <li>Focus on 6-12 rep range for muscle growth</li>
+                            <li>Monthly progress photos</li>
+                            <li>Measure arms, thighs, glutes monthly</li>
+                            <li>Prioritize compound movements</li>
+                            <li>Consider creatine supplementation</li>
+                            <li>Focus on mind-muscle connection</li>
+                            <li>Adequate protein timing around workouts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recovery Tab -->
+            <div id="recovery" class="tab-content">
+                <div class="recovery-section">
+                    <h3>Recovery Essentials</h3>
+                    <p class="citation">Based on <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6988893/">Sleep Hygiene for Athletes Study</a> and <a href="https://www.healthline.com/health/muscle-recovery">Healthline's Muscle Recovery Guide</a></p>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="icon">😴</div>
+                            <h3>Sleep</h3>
+                            <p>7-9 hours nightly for optimal recovery and hormone production</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">🌡️</div>
+                            <h3>Room Temperature</h3>
+                            <p>Keep bedroom at 65-68°F for best sleep quality</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">📱</div>
+                            <h3>Screen Time</h3>
+                            <p>No screens 30 minutes before bed</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">⏰</div>
+                            <h3>Sleep Schedule</h3>
+                            <p>Consistent bedtime and wake time, even on weekends</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">💧</div>
+                            <h3>Hydration</h3>
+                            <p>Half your body weight in ounces daily</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">🧘</div>
+                            <h3>Active Recovery</h3>
+                            <p>Light walking or yoga on rest days</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-box">
+                        <h3>Post-Workout Recovery Protocol</h3>
+                        <ul>
+                            <li><strong>0-30 minutes:</strong> Consume post-workout meal (your breakfast)</li>
+                            <li><strong>Hydrate:</strong> Drink 16-24 oz water post-workout</li>
+                            <li><strong>Stretch:</strong> 5-10 minutes of static stretching</li>
+                            <li><strong>Track:</strong> Log your workout while it's fresh</li>
+                            <li><strong>Rest days:</strong> Light activity, don't be completely sedentary</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Supplements Tab -->
+            <div id="supplements" class="tab-content">
+                <div class="fitness-section">
+                    <h2>Supplement Recommendations</h2>
+                    <p class="citation">Based on <a href="https://www.health.harvard.edu/exercise-and-fitness/what-is-creatine-potential-benefits-and-risks-of-this-popular-supplement">Harvard Health's Creatine Guide</a> and <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-021-00412-w">Journal of International Society of Sports Nutrition</a></p>
+                    
+                    <div class="supplement-grid">
+                        <div class="supplement-card">
+                            <h4>Essential for Both</h4>
+                            <p><strong>Protein Powder</strong></p>
+                            <span class="dose">Already in meal plan</span>
+                            <p>Helps meet daily protein targets</p>
+                            
+                            <p><strong>Vitamin D3</strong></p>
+                            <span class="dose">2000-4000 IU daily</span>
+                            <p>Supports immune function and mood</p>
+                            
+                            <p><strong>Omega-3s</strong></p>
+                            <span class="dose">1-2g daily</span>
+                            <p>Anti-inflammatory, heart health</p>
+                        </div>
+                        
+                        <div class="supplement-card">
+                            <h4>Performance Enhancers</h4>
+                            <p><strong>Creatine Monohydrate</strong></p>
+                            <span class="dose">5g daily</span>
+                            <p>Proven for strength and muscle gains</p>
+                            
+                            <p><strong>Caffeine</strong></p>
+                            <span class="dose">100-200mg pre-workout</span>
+                            <p>Simple coffee works great!</p>
+                        </div>
+                        
+                        <div class="supplement-card">
+                            <h4>Recovery Support</h4>
+                            <p><strong>Magnesium Glycinate</strong></p>
+                            <span class="dose">200-400mg before bed</span>
+                            <p>Improves sleep quality and recovery</p>
+                            
+                            <p><strong>Multivitamin</strong></p>
+                            <span class="dose">1 daily with breakfast</span>
+                            <p>Insurance for micronutrient gaps</p>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-box">
+                        <h3>💡 Supplement Tips</h3>
+                        <ul>
+                            <li>Skip expensive pre-workouts - coffee + your pre-workout snack is perfect</li>
+                            <li>Creatine timing doesn't matter - just take 5g daily consistently</li>
+                            <li>Buy protein powder in bulk for better value</li>
+                            <li>Look for third-party tested supplements</li>
+                            <li>Start with basics before adding more supplements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success Strategies Tab -->
+            <div id="strategies" class="tab-content">
+                <div class="success-tips">
+                    <h2>Keys to Success</h2>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="icon">📝</div>
+                            <h3>Track Progress</h3>
+                            <p>Use MyFitnessPal for food, notebook for workouts</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">📸</div>
+                            <h3>Progress Photos</h3>
+                            <p>Same time, lighting, and poses every 4 weeks</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">📏</div>
+                            <h3>Measurements</h3>
+                            <p>Waist, arms, thighs monthly - better than scale</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">🎯</div>
+                            <h3>80/20 Rule</h3>
+                            <p>Stick to plan 80% of time for results</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">🍽️</div>
+                            <h3>Meal Timing</h3>
+                            <p>Consistent meal times help with adherence</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="icon">💪</div>
+                            <h3>Trust the Process</h3>
+                            <p>Results take 8-12 weeks to really show</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="daily-targets">
+                    <h2>Quick Reference: Daily Minimums</h2>
+                    
+                    <div class="targets-grid">
+                        <div class="target-item">
+                            <span class="value">Nic</span>
+                            <span class="label">Targets</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">180-200g</span>
+                            <span class="label">Protein</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">2400-2500</span>
+                            <span class="label">Calories</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">125 oz</span>
+                            <span class="label">Water</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">8,000</span>
+                            <span class="label">Steps</span>
+                        </div>
+                    </div>
+                    
+                    <div class="targets-grid" style="margin-top: 20px;">
+                        <div class="target-item">
+                            <span class="value">Annika</span>
+                            <span class="label">Targets</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">110-130g</span>
+                            <span class="label">Protein</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">1800-2000</span>
+                            <span class="label">Calories</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">75 oz</span>
+                            <span class="label">Water</span>
+                        </div>
+                        <div class="target-item">
+                            <span class="value">Portable</span>
+                            <span class="label">Snacks Ready</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="strategy-box">
+                    <h3>🏆 Remember: Consistency Beats Perfection!</h3>
+                    <p style="text-align: center; font-size: 1.2em; margin-top: 15px;">
+                        Stick to this plan 80% of the time and you'll see amazing results. 
+                        Trust the process, be patient, and celebrate small victories along the way!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.section-tabs button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

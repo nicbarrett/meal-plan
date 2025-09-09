@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Grocery List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        nav.main-nav {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav.main-nav a {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        nav.main-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        nav.main-nav a.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .print-button {
+            background: #4caf50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .print-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+        
+        .grocery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .grocery-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .grocery-section h2 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+        }
+        
+        .grocery-section h2 span {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .grocery-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .grocery-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .grocery-list li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            display: inline-block;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .grocery-list li.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+            background: #e8f5e9;
+        }
+        
+        .grocery-list li.checked .checkbox:after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 3px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .special-note {
+            background: #fff9c4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #f57c00;
+            margin-left: auto;
+            font-weight: 600;
+        }
+        
+        .produce { background: #e8f5e9; }
+        .produce h2 { color: #2e7d32; }
+        
+        .meat { background: #ffebee; }
+        .meat h2 { color: #c62828; }
+        
+        .dairy { background: #e3f2fd; }
+        .dairy h2 { color: #1565c0; }
+        
+        .pantry { background: #fff3e0; }
+        .pantry h2 { color: #e65100; }
+        
+        .frozen { background: #e0f2f1; }
+        .frozen h2 { color: #00695c; }
+        
+        .misc { background: #f3e5f5; }
+        .misc h2 { color: #7b1fa2; }
+        
+        .shopping-tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .shopping-tips h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .shopping-tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .shopping-tips li {
+            padding: 8px 0;
+        }
+        
+        .shopping-tips li:before {
+            content: "💡 ";
+            margin-right: 5px;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .summary-box h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .summary-item .number {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .summary-item .label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .grocery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            header, nav {
+                display: none;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .grocery-list li {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 Complete Grocery List</h1>
+            <p>Organized by store sections for efficient shopping</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="meal-plan-index.html">🏠 Home</a>
+            <a href="meal-plan-page.html">📅 7-Day Meal Plan</a>
+            <a href="recipes-page.html">🍳 Recipes & Batch Cooking</a>
+            <a href="grocery-page.html" class="active">🛒 Grocery List</a>
+            <a href="fitness-page.html">💪 Fitness & Strategies</a>
+        </nav>
+        
+        <div class="content">
+            <button class="print-button" onclick="window.print()">🖨️ Print Shopping List</button>
+            
+            <div class="summary-box">
+                <h3>Shopping Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="number">85</div>
+                        <div class="label">Total Items</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">6</div>
+                        <div class="label">Store Sections</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">7</div>
+                        <div class="label">Days of Meals</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="number">2</div>
+                        <div class="label">People</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="shopping-tips">
+                <h3>🛍️ Smart Shopping Tips</h3>
+                <ul>
+                    <li>Shop produce section last to keep items fresh</li>
+                    <li>Check for sales on protein sources - buy extra and freeze</li>
+                    <li>Items marked "Nic only" can be skipped for Annika</li>
+                    <li>Buy avocados at different ripeness levels for the week</li>
+                    <li>Consider buying pre-washed spinach to save prep time</li>
+                    <li>Get string cheese in bulk for daily pre-workout snacks</li>
+                </ul>
+            </div>
+            
+            <div class="grocery-grid">
+                <div class="grocery-section produce">
+                    <h2><span>🥬</span> Produce</h2>
+                    <ul class="grocery-list" id="produce-list">
+                        <li><span class="checkbox"></span>Bananas (3 bunches) <span class="special-note">Daily pre-workout</span></li>
+                        <li><span class="checkbox"></span>Apples (10) <span class="special-note">Daily pre-workout</span></li>
+                        <li><span class="checkbox"></span>Mixed berries (3 lbs)</li>
+                        <li><span class="checkbox"></span>Pineapple (2 cups chunks)</li>
+                        <li><span class="checkbox"></span>Avocados (8) <span class="special-note">Daily breakfast</span></li>
+                        <li><span class="checkbox"></span>Tomatoes (4 large)</li>
+                        <li><span class="checkbox"></span>Red onions (2)</li>
+                        <li><span class="checkbox"></span>Green onions (1 bunch)</li>
+                        <li><span class="checkbox"></span>Spinach (2 bags)</li>
+                        <li><span class="checkbox"></span>Mixed salad greens (2 bags)</li>
+                        <li><span class="checkbox"></span>Sweet potatoes (4 large)</li>
+                        <li><span class="checkbox"></span>Cilantro (2 bunches)</li>
+                        <li><span class="checkbox"></span>Garlic (1 bulb)</li>
+                        <li><span class="checkbox"></span>Limes (8)</li>
+                        <li><span class="checkbox"></span>Jalapeños (4) <span class="special-note">Nic only</span></li>
+                    </ul>
+                </div>
+                
+                <div class="grocery-section meat">
+                    <h2><span>🥩</span> Meat & Seafood</h2>
+                    <ul class="grocery-list" id="meat-list">
+                        <li><span class="checkbox"></span>Chicken breast (3 lbs)</li>
+                        <li><span class="checkbox"></span>93% lean ground turkey (2 lbs)</li>
+                        <li><span class="checkbox"></span>Turkey Italian sausage (1.5 lbs)</li>
+                        <li><span class="checkbox"></span>Turkey breakfast sausage links (2 lbs)</li>
+                        <li><span class="checkbox"></span>Turkey bacon (1 lb)</li>
+                        <li><span class="checkbox"></span>Turkey jerky (1 lb)</li>
+                        <li><span class="checkbox"></span>Beef jerky (8 oz)</li>
+                    </ul>
+                </div>
+                
+                <div class="grocery-section dairy">
+                    <h2><span>🥛</span> Dairy</h2>
+                    <ul class="grocery-list" id="dairy-list">
+                        <li><span class="checkbox"></span>Greek yogurt plain (80 oz)</li>
+                        <li><span class="checkbox"></span>Cottage cheese (24 oz) <span class="special-note">Nic only</span></li>
+                        <li><span class="checkbox"></span>Eggs (4 dozen)</li>
+                        <li><span class="checkbox"></span>String cheese (20 pack)</li>
+                        <li><span class="checkbox"></span>Shredded cheese blend (2 lbs)</li>
+                        <li><span class="checkbox"></span>Parmesan cheese (8 oz)</li>
+                        <li><span class="checkbox"></span>Milk (half gallon)</li>
+                        <li><span class="checkbox"></span>Almond milk (half gallon)</li>
+                    </ul>
+                </div>
+                
+                <div class="grocery-section pantry">
+                    <h2><span>🥫</span> Pantry</h2>
+                    <ul class="grocery-list" id="pantry-list">
+                        <li><span class="checkbox"></span>White rice (3 cups dry)</li>
+                        <li><span class="checkbox"></span>Chickpea or lentil pasta (2 lbs)</li>
+                        <li><span class="checkbox"></span>Whole wheat buns (8)</li>
+                        <li><span class="checkbox"></span>Whole grain bread (1 loaf)</li>
+                        <li><span class="checkbox"></span>Black beans (2 cans)</li>
+                        <li><span class="checkbox"></span>Chipotle peppers in adobo (2 cans)</li>
+                        <li><span class="checkbox"></span>Marinara sauce (24 oz)</li>
+                        <li><span class="checkbox"></span>Sun-dried tomatoes (8 oz jar)</li>
+                        <li><span class="checkbox"></span>Protein powder vanilla (2 lbs)</li>
+                        <li><span class="checkbox"></span>Peanut butter (16 oz)</li>
+                        <li><span class="checkbox"></span>Almond butter (16 oz)</li>
+                        <li><span class="checkbox"></span>Mixed nuts (2 lbs)</li>
+                        <li><span class="checkbox"></span>Trail mix (1 lb)</li>
+                        <li><span class="checkbox"></span>Granola (1 bag)</li>
+                        <li><span class="checkbox"></span>Oats (1 container)</li>
+                        <li><span class="checkbox"></span>Chia seeds (12 oz)</li>
+                        <li><span class="checkbox"></span>Cocoa powder (8 oz)</li>
+                        <li><span class="checkbox"></span>Dates (1 lb)</li>
+                        <li><span class="checkbox"></span>Honey</li>
+                        <li><span class="checkbox"></span>Maple syrup</li>
+                        <li><span class="checkbox"></span>Stevia or sweetener</li>
+                        <li><span class="checkbox"></span>Olive oil</li>
+                        <li><span class="checkbox"></span>Worcestershire sauce</li>
+                        <li><span class="checkbox"></span>Cumin</li>
+                        <li><span class="checkbox"></span>Garlic powder</li>
+                        <li><span class="checkbox"></span>Salt & pepper</li>
+                        <li><span class="checkbox"></span>Hot sauce variety <span class="special-note">Nic</span></li>
+                        <li><span class="checkbox"></span>Red pepper flakes</li>
+                        <li><span class="checkbox"></span>Cinnamon</li>
+                    </ul>
+                </div>
+                
+                <div class="grocery-section frozen">
+                    <h2><span>❄️</span> Frozen</h2>
+                    <ul class="grocery-list" id="frozen-list">
+                        <li><span class="checkbox"></span>Corn (2 cups)</li>
+                        <li><span class="checkbox"></span>Mixed berries (2 lbs backup)</li>
+                        <li><span class="checkbox"></span>Hash browns (1 bag) <span class="special-note">Weekends</span></li>
+                    </ul>
+                </div>
+                
+                <div class="grocery-section misc">
+                    <h2><span>📦</span> Miscellaneous</h2>
+                    <ul class="grocery-list" id="misc-list">
+                        <li><span class="checkbox"></span>Protein bars (12 pack) <span class="special-note">Annika portable</span></li>
+                        <li><span class="checkbox"></span>Large tortillas</li>
+                        <li><span class="checkbox"></span>Food storage containers</li>
+                        <li><span class="checkbox"></span>Sandwich bags</li>
+                        <li><span class="checkbox"></span>Parchment paper</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add click functionality to check off items
+        document.querySelectorAll('.grocery-list li').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                saveProgress();
+            });
+        });
+        
+        // Save progress to localStorage
+        function saveProgress() {
+            const checkedItems = [];
+            document.querySelectorAll('.grocery-list li.checked').forEach((item, index) => {
+                checkedItems.push(item.textContent.trim());
+            });
+            localStorage.setItem('groceryProgress', JSON.stringify(checkedItems));
+        }
+        
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('groceryProgress');
+            if (saved) {
+                const checkedItems = JSON.parse(saved);
+                document.querySelectorAll('.grocery-list li').forEach(item => {
+                    if (checkedItems.includes(item.textContent.trim())) {
+                        item.classList.add('checked');
+                    }
+                });
+            }
+        }
+        
+        // Load progress on page load
+        loadProgress();
+        
+        // Add reset button functionality
+        function resetList() {
+            if (confirm('Reset all checked items?')) {
+                document.querySelectorAll('.grocery-list li').forEach(item => {
+                    item.classList.remove('checked');
+                });
+                localStorage.removeItem('groceryProgress');
+            }
+        }
+    </script>
+</body>
+</html>

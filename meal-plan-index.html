@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Protein Meal Plan - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        
+        nav.main-nav {
+            background: #f8f9fa;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav.main-nav a {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        nav.main-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        nav.main-nav a.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+        }
+        
+        .content {
+            padding: 60px 40px;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .hero-section h2 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            font-size: 1.2em;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid #f0f0f0;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .card h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .card ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .card ul li {
+            padding: 5px 0;
+            color: #888;
+        }
+        
+        .card ul li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .macro-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .macro-section h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .macro-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .macro-card h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .macro-card .calories {
+            font-size: 2em;
+            color: #764ba2;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .macro-card .macros {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .macro-card .macro-item {
+            text-align: center;
+        }
+        
+        .macro-card .macro-value {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .macro-card .macro-label {
+            display: block;
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .citation {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .citation a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .citation a:hover {
+            text-decoration: underline;
+        }
+        
+        .features-section {
+            margin: 60px 0;
+        }
+        
+        .features-section h2 {
+            color: #764ba2;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .feature-item .icon {
+            font-size: 2em;
+            margin-right: 15px;
+            color: #667eea;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+        
+        footer p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .hero-section h2 {
+                font-size: 1.8em;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav.main-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            nav.main-nav a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏋️‍♂️ Complete 7-Day High-Protein Meal Plan 🏋️‍♀️</h1>
+            <p class="subtitle">Customized for Nic & Annika's Strength Training Goals</p>
+            <p class="subtitle">Evidence-based nutrition • 2-3 cooking sessions per week</p>
+            <p class="subtitle">Standardized weekday routines • Perfect for busy schedules</p>
+        </header>
+        
+        <nav class="main-nav">
+            <a href="meal-plan-index.html" class="active">🏠 Home</a>
+            <a href="meal-plan-page.html">📅 7-Day Meal Plan</a>
+            <a href="recipes-page.html">🍳 Recipes & Batch Cooking</a>
+            <a href="grocery-page.html">🛒 Grocery List</a>
+            <a href="fitness-page.html">💪 Fitness & Strategies</a>
+        </nav>
+        
+        <div class="content">
+            <div class="hero-section">
+                <h2>Welcome to Your Personalized Meal Plan!</h2>
+                <p>This comprehensive meal plan has been specifically designed for your strength training goals, food preferences, and busy lifestyle. With only 2-3 cooking sessions per week and standardized weekday routines, you'll hit your protein targets while enjoying delicious meals.</p>
+            </div>
+            
+            <div class="macro-section">
+                <h2>Your Personalized Macro Targets</h2>
+                <p class="citation">Calculations based on <a href="https://barbend.com/macros-for-fat-loss-muscle-gain/">BarBend's Macros Guide</a> and <a href="https://www.menshealth.com/uk/nutrition/a36092326/macro-calculator/">Men's Health Macro Calculator</a></p>
+                
+                <div class="macro-grid">
+                    <div class="macro-card">
+                        <h3>Nic's Daily Targets</h3>
+                        <div class="calories">2400-2500</div>
+                        <div>calories per day</div>
+                        <div class="macros">
+                            <div class="macro-item">
+                                <span class="macro-value">180-200g</span>
+                                <span class="macro-label">Protein</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">53-69g</span>
+                                <span class="macro-label">Fat</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">240-313g</span>
+                                <span class="macro-label">Carbs</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="macro-card">
+                        <h3>Annika's Daily Targets</h3>
+                        <div class="calories">1800-2000</div>
+                        <div>calories per day</div>
+                        <div class="macros">
+                            <div class="macro-item">
+                                <span class="macro-value">110-130g</span>
+                                <span class="macro-label">Protein</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">50-67g</span>
+                                <span class="macro-label">Fat</span>
+                            </div>
+                            <div class="macro-item">
+                                <span class="macro-value">203-250g</span>
+                                <span class="macro-label">Carbs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <a href="meal-plan-page.html" class="card">
+                    <span class="card-icon">📅</span>
+                    <h3>7-Day Meal Plan</h3>
+                    <p>Complete daily meals with exact portions for both of you</p>
+                    <ul>
+                        <li>Standardized weekday breakfasts</li>
+                        <li>Portable snacks for Annika</li>
+                        <li>Customizable spice levels</li>
+                        <li>Weekend variety options</li>
+                    </ul>
+                </a>
+                
+                <a href="recipes-page.html" class="card">
+                    <span class="card-icon">🍳</span>
+                    <h3>Recipes & Batch Cooking</h3>
+                    <p>All your meal prep instructions in one place</p>
+                    <ul>
+                        <li>Sunday: Burrito bowls & breakfast prep</li>
+                        <li>Tuesday: Turkey burgers</li>
+                        <li>Thursday: Protein pasta</li>
+                        <li>Dessert recipes included</li>
+                    </ul>
+                </a>
+                
+                <a href="grocery-page.html" class="card">
+                    <span class="card-icon">🛒</span>
+                    <h3>Complete Grocery List</h3>
+                    <p>Organized by store sections for efficient shopping</p>
+                    <ul>
+                        <li>Produce section</li>
+                        <li>Meat & seafood</li>
+                        <li>Dairy products</li>
+                        <li>Pantry staples</li>
+                    </ul>
+                </a>
+                
+                <a href="fitness-page.html" class="card">
+                    <span class="card-icon">💪</span>
+                    <h3>Fitness & Strategies</h3>
+                    <p>Training plans and success strategies</p>
+                    <ul>
+                        <li>4-day workout splits</li>
+                        <li>Recovery essentials</li>
+                        <li>Supplement recommendations</li>
+                        <li>Progress tracking tips</li>
+                    </ul>
+                </a>
+            </div>
+            
+            <div class="features-section">
+                <h2>Plan Features & Benefits</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="icon">✅</span>
+                        <span>Only 2-3 cooking sessions per week</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🎯</span>
+                        <span>Hit your protein targets daily</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🔄</span>
+                        <span>Same weekday breakfast routine</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🌶️</span>
+                        <span>Customizable spice levels</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📦</span>
+                        <span>Portable options for work</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🍰</span>
+                        <span>Healthy desserts included</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><strong>Remember: Consistency beats perfection!</strong></p>
+            <p>Stick to this plan 80% of the time and you'll see amazing results!</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple navigation simulation - in a real implementation, these would be separate HTML files
+        // Navigation is now handled by actual links to HTML files
+    </script>
+</body>
+</html>
