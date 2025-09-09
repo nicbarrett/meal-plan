@@ -879,17 +879,29 @@
             gap: 8px;
         }
         
-        .grocery-category ul {
+        .grocery-category ul,
+        .grocery-list {
             list-style: none;
             padding: 0;
         }
         
-        .grocery-category li {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+        .grocery-category li,
+        .grocery-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .grocery-list li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
         }
         
         .grocery-category li:last-child {
